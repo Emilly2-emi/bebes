@@ -1,4 +1,6 @@
-var som=""
+var som="";
+status="";
+objects=[];
 
 function preload(){
  som =loadSound("bom_dia.mp3");
@@ -16,17 +18,19 @@ function setup(){
 
 function draw(){
     image(video,0,0,400,400);
-    objectDetector.detect(video,gotResult);
-    for(i=0;i<objects.length;i++){
-        if(objects[i].label=="person"){
-            console.log("pessoa detectada")
-            som.play();
-        }
-        else{
-            som.stop();
+    if(status==true){
+        objectDetector.detect(video,gotResult);
+        for(i=0;i<objects.length;i++){
+            if(objects[i].label=="person"){
+                console.log("pessoa detectada")
+                som.play();
+            }
+            else{
+                som.stop();
+            }
         }
     }
-    
+  
 }
 
 function gotResult(error,results){
@@ -35,4 +39,9 @@ function gotResult(error,results){
     }
      console.log(results);
      objects=results;
+}
+
+function modelLoaded(){
+    console.log("carregado");
+    status=true;
 }
